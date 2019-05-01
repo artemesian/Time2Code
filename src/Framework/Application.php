@@ -7,9 +7,17 @@ use GuzzleHttp\Psr7\ServerRequest;
 class Application
 {
 
-    public function __construct()
+    private $modules = [];
+    private $router;
+
+    public function __construct(array $modules = null)
     {
-        //echo "Contruction de l'application !";
+        if ($modules !== null) {
+            foreach ($modules as $module) {
+                $this->modules[] = new $module();
+            }
+        }
+        $this->router = new Router();
     }
 
     public function run(ServerRequest $request): Response
@@ -21,9 +29,21 @@ class Application
                ->withHeader('Location', substr($uri, 0, -1));
         }
 
-        if ($uri === '/blog') {
-            return new Response(200, [], "<h1>Bienvenue sur le Blog</h1>");
+        $this->router->get('/blog', function () {
+        }, 'blog');
+        $this->router->get('/community', function () {
+        }, 'community');
+
+        $route = $this->router->match($request);
+
+        if ($route && $route->getName() === "blog") {
+            return new Response(200, [], "Time2Code - <h1>page obtenue par le système de routage ! </h1>");
         }
+        if ($route && $route->getName() === "community") {
+            return new Response(200, [], "Time2Code - <h1>Bienvenue sur la communauté...</h1>");
+        }
+
+
         return new Response(404, [], "<h1>Erreur 404</h1>");
     }
 }

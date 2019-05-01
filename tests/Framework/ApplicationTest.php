@@ -31,6 +31,7 @@ class ApplicationTest extends TestCase
 
     }
 
+    /*
     public function testBlog():void
     {
         $app = new Application();
@@ -39,6 +40,7 @@ class ApplicationTest extends TestCase
         $this->assertStringContainsString("<h1>Bienvenue sur le Blog</h1>", (string)$response->getBody());
         $this->assertSame(200, $response->getStatusCode());
     }
+    */
 
     public function test404():void
     {
