@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use Time2Code\Modules\Exercises\ExercisesModule;
 
 class ApplicationTest extends TestCase
 {
@@ -41,6 +42,27 @@ class ApplicationTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
     }
     */
+
+    public function testExerciseModuleIndex()
+    {
+        $app = new Application([
+            ExercisesModule::class
+        ]);
+        $request = new ServerRequest('GET', '/exercises');
+        $response = $app->run($request);
+        $this->assertEquals("<h1>Bienvenue, Liste des exercices !</h1>", (string) $response->getBody());
+    }
+
+    public function testExercisesModuleShow()
+    {
+        $app = new Application([
+            ExercisesModule::class
+        ]);
+        $request = new ServerRequest('GET', '/exercises/first-exercise');
+        $response =  $app->run($request);
+        $this->assertEquals("<h1>Bienvenue sur l'exercice first-exercise</h1>",
+            (string)$response->getBody());
+    }
 
     public function test404():void
     {
