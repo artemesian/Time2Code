@@ -1,0 +1,1 @@
+<h1>Bienvenue sur l'exercice . <?= $slug ?>. </h1>

@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Router;
+namespace Time2Code\Framework\Router;
 
 /**
  * Class Route

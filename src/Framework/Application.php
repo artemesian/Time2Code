@@ -1,9 +1,10 @@
 <?php
-namespace Framework;
+namespace Time2Code\Framework;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Application
 {
@@ -11,17 +12,23 @@ class Application
     private $modules = [];
     private $router;
 
-    public function __construct(array $modules = null)
+    public function __construct(array $modules = null, $dependencies = [])
     {
         $this->router = new Router();
         if ($modules !== null) {
             foreach ($modules as $module) {
-                $this->modules[] = new $module($this->router);
+                $this->modules[] = new $module($this->router, $dependencies['renderer']);
             }
         }
+            $dependencies['renderer']->globals('router', $this->router);
     }
 
-    public function run(ServerRequest $request): Response
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @return Response
+     */
+    public function run(ServerRequestInterface $request): Response
     {
         $uri = $request->getUri()->getPath();
         if (!empty($uri) && $uri[-1] === '/') {
@@ -44,6 +51,7 @@ class Application
         }, $request);
 
         $response = call_user_func_array($route->getCallback(), [$request]);
+
         if (is_string($response)) {
             return new Response('200', [], $response);
         } elseif ($response instanceof ResponseInterface) {

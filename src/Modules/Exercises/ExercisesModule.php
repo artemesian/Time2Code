@@ -1,35 +1,44 @@
 <?php
 namespace Time2Code\Modules\Exercises;
 
-use Framework\Router;
+use Time2Code\Framework\Renderer\Renderer;
+use Time2Code\Framework\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ExercisesModule
 {
     private $router;
+    private $renderer;
 
-    public function __construct(Router $router)
+    public function __construct(Router $router, Renderer $renderer)
     {
+        $this->renderer = $renderer;
+        $this->renderer->addPath('exercises', __DIR__ . '/views');
+
         $this->router = $router;
         $this->router->get('/exercises', [$this, 'index'], 'exercises.index');
-        $this->router->get('/exercises/{slug:[a-z\-]+}', [$this, 'show'], 'exercise.show');
-        $this->router->get('/exercises/{slug:[a-z\-]+}-{id:[\d]+}', [$this, 'showid'], 'exercise.show.id');
+        $this->router->get('/exercises/{slug:[a-zA-Z\-0-9]+}', [$this, 'show'], 'exercise.show');
+        $this->router->get('/exercises/{slug:[a-zA-Z\-0-9]+}/id={id:[\d]+}', [$this, 'showid'], 'exercise.show.id');
     }
 
     public function index(ServerRequest $request)
     {
-        return "<h1>Bienvenue, Liste des exercices !</h1>";
+        return $this->renderer->render('@exercises/index');
     }
 
     public function show(ServerRequestInterface $request)
     {
-        return "<h1>Bienvenue sur l'exercice " . $request->getAttribute('slug') . "</h1>";
+        return $this->renderer->render('@exercises/show', [
+            'slug' => $request->getAttribute('slug')
+        ]);
     }
 
     public function showid(ServerRequest $request)
     {
-        return "<h1> " . $request->getAttribute('id') . " Exercice : "
-            . $request->getAttribute('slug') . "</h1>";
+        return $this->renderer->render('@exercises/showid', [
+            'id' => $request->getAttribute('id'),
+            'slug' => $request->getAttribute('slug')
+        ]);
     }
 }

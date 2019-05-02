@@ -1,7 +1,7 @@
 <?php
-namespace Test\Framework\Router;
+namespace Tests\Framework\Router;
 
-use Framework\Router;
+use Time2Code\Framework\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 

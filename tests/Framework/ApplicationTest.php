@@ -1,9 +1,7 @@
 <?php
 namespace Tests\Framework;
 
-use Framework\Application;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
+use Time2Code\Framework\Application;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Time2Code\Modules\Exercises\ExercisesModule;

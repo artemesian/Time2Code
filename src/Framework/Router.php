@@ -1,9 +1,8 @@
 <?php
-namespace Framework;
+namespace Time2Code\Framework;
 
-use Framework\Router\Route;
-use GuzzleHttp\Psr7\ServerRequest;
-use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Time2Code\Framework\Router\Route;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Router\Route as ZendRoute;
 
@@ -21,7 +20,7 @@ class Router
         $this->zendFastRouter->addRoute(new ZendRoute($path, $callback, ['GET'], $name));
     }
 
-    public function match(ServerRequest $request) : ?Route
+    public function match(ServerRequestInterface $request) : ?Route
     {
         $routeResult = $this->zendFastRouter->match($request);
         if ($routeResult->isSuccess()) {

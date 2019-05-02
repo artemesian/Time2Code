@@ -8,8 +8,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Framework\\" : "src/Framework",
-            "Test\\": "tests",
+            "Tests\\": "tests",
             "Time2Code\\": "src"
         }
     },
