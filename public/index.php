@@ -1,11 +1,11 @@
 <?php
 require "../vendor/autoload.php";
 
-$renderer = new \Time2Code\Framework\Renderer\Renderer();
-$renderer->addPath(__DIR__ . '/views');
+$phpRenderer = new  \Time2Code\Framework\Renderer\PHPRenderer();
+$twigRenderer = new \Time2Code\Framework\Renderer\TwigRenderer(dirname(__DIR__) . '/templates');
 
 $dependencies = [
-  'renderer' => $renderer
+  'renderer' => $twigRenderer
 ];
 
 $app = new \Time2Code\Framework\Application([

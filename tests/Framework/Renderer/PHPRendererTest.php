@@ -1,20 +1,20 @@
 <?php
-namespace Test\Framework;
+namespace Test\Framework\Renderer;
 
 use PHPUnit\Framework\TestCase;
-use Time2Code\Framework\Renderer\Renderer;
+use Time2Code\Framework\Renderer\PHPRenderer;
 
-class RendererTest extends TestCase
+class PHPRendererTest extends TestCase
 {
     /**
      * Renderer
-     * @var Renderer
+     * @var PHPRenderer
      */
     private $renderer;
 
     public function setUp(): void
     {
-        $this->renderer = new \Time2Code\Framework\Renderer\Renderer();
+        $this->renderer = new PHPRenderer(__DIR__ . '/views');
     }
 
     public function testRendererWithTheRightPath()
@@ -41,7 +41,7 @@ class RendererTest extends TestCase
     public function testRendererWithGlobalParams()
     {
         $this->renderer->addPath('testglobal', __DIR__ . '/views');
-        $this->renderer->globals('param', 'paramètres');
+        $this->renderer->addGlobals('param', 'paramètres');
         $content = $this->renderer->render('@testglobal/demoparams');
         $this->assertEquals('Test demo params : paramètres', $content);
     }

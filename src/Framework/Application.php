@@ -20,7 +20,8 @@ class Application
                 $this->modules[] = new $module($this->router, $dependencies['renderer']);
             }
         }
-            $dependencies['renderer']->globals('router', $this->router);
+            $dependencies['renderer']->addGlobals('router', $this->router);
+           //echo "<pre>"; var_dump($dependencies['renderer']); echo "</pre>";die();
     }
 
     /**

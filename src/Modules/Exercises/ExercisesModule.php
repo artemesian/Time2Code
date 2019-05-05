@@ -1,7 +1,7 @@
 <?php
 namespace Time2Code\Modules\Exercises;
 
-use Time2Code\Framework\Renderer\Renderer;
+use Time2Code\Framework\Renderer\RendererInterface;
 use Time2Code\Framework\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,7 +11,7 @@ class ExercisesModule
     private $router;
     private $renderer;
 
-    public function __construct(Router $router, Renderer $renderer)
+    public function __construct(Router $router, RendererInterface $renderer)
     {
         $this->renderer = $renderer;
         $this->renderer->addPath('exercises', __DIR__ . '/views');
@@ -36,6 +36,7 @@ class ExercisesModule
 
     public function showid(ServerRequest $request)
     {
+        sleep(4);
         return $this->renderer->render('@exercises/showid', [
             'id' => $request->getAttribute('id'),
             'slug' => $request->getAttribute('slug')
